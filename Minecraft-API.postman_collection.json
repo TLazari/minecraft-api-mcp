@@ -1,0 +1,404 @@
+{
+  "info": {
+    "_postman_id": "minecraft-api-mcp",
+    "name": "Minecraft API MCP",
+    "description": "Complete API collection for Minecraft Fabric Mod with REST endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Players",
+      "item": [
+        {
+          "name": "Get All Players",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/api/world/players",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "players"]
+            },
+            "description": "Get list of all players online with their name, UUID, position, and rotation"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Entities",
+      "item": [
+        {
+          "name": "List Entity Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/api/world/entities",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "entities"]
+            },
+            "description": "Get list of all available entity types"
+          },
+          "response": []
+        },
+        {
+          "name": "Spawn Entity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"minecraft:zombie\",\n  \"world\": \"minecraft:overworld\",\n  \"x\": 100,\n  \"y\": 64,\n  \"z\": 100\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/world/entities/spawn",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "entities", "spawn"]
+            },
+            "description": "Spawn an entity at specified coordinates"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Blocks",
+      "item": [
+        {
+          "name": "List Blocks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/api/world/blocks/list",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "blocks", "list"]
+            },
+            "description": "Get list of all available block types"
+          },
+          "response": []
+        },
+        {
+          "name": "Set Blocks (3D Array)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"world\": \"minecraft:overworld\",\n  \"startX\": 100,\n  \"startY\": 64,\n  \"startZ\": 100,\n  \"blocks\": [\n    [\n      [\n        {\"blockName\": \"minecraft:stone\"},\n        {\"blockName\": \"minecraft:stone\"},\n        {\"blockName\": \"minecraft:stone\"}\n      ],\n      [\n        {\"blockName\": \"minecraft:dirt\"},\n        null,\n        {\"blockName\": \"minecraft:dirt\"}\n      ]\n    ]\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/world/blocks/set",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "blocks", "set"]
+            },
+            "description": "Set blocks using a 3D array (null blocks are skipped)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Chunk (3D Array)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"world\": \"minecraft:overworld\",\n  \"startX\": 100,\n  \"startY\": 60,\n  \"startZ\": 100,\n  \"sizeX\": 16,\n  \"sizeY\": 10,\n  \"sizeZ\": 16\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/world/blocks/chunk",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "blocks", "chunk"]
+            },
+            "description": "Get a 3D chunk of blocks with size limit of 64x64x64 max"
+          },
+          "response": []
+        },
+        {
+          "name": "Fill Box",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"world\": \"minecraft:overworld\",\n  \"x1\": 100,\n  \"y1\": 64,\n  \"z1\": 100,\n  \"x2\": 110,\n  \"y2\": 70,\n  \"z2\": 110,\n  \"blockType\": \"minecraft:stone\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/world/blocks/fill",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "blocks", "fill"]
+            },
+            "description": "Fill a box/cuboid area with a specific block type (max 100000 blocks)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Heightmap",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"world\": \"minecraft:overworld\",\n  \"x1\": 0,\n  \"z1\": 0,\n  \"x2\": 100,\n  \"z2\": 100,\n  \"heightmapType\": \"WORLD_SURFACE\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/world/blocks/heightmap",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "blocks", "heightmap"]
+            },
+            "description": "Get heightmap for a rectangular area. Valid types: WORLD_SURFACE, MOTION_BLOCKING, MOTION_BLOCKING_NO_LEAVES, OCEAN_FLOOR"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Broadcast Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Hello World!\",\n  \"actionBar\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/message/broadcast",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "message", "broadcast"]
+            },
+            "description": "Send a message to all players. actionBar=true sends to action bar instead of chat"
+          },
+          "response": []
+        },
+        {
+          "name": "Send Message to Player",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Hello Player!\",\n  \"name\": \"TLazari\",\n  \"actionBar\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/message/player",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "message", "player"]
+            },
+            "description": "Send a message to a specific player (by name or UUID)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Player Teleport",
+      "item": [
+        {
+          "name": "Teleport Player",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"playerName\": \"TLazari\",\n  \"x\": 100,\n  \"y\": 64,\n  \"z\": 100,\n  \"dimension\": \"minecraft:overworld\",\n  \"yaw\": 0,\n  \"pitch\": 0\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/players/teleport",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "players", "teleport"]
+            },
+            "description": "Teleport a player to specified coordinates and dimension"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "NBT Structures",
+      "item": [
+        {
+          "name": "Place NBT Structure",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "nbt_file",
+                  "type": "file",
+                  "src": "/path/to/structure.nbt"
+                },
+                {
+                  "key": "x",
+                  "value": "100",
+                  "type": "text"
+                },
+                {
+                  "key": "y",
+                  "value": "64",
+                  "type": "text"
+                },
+                {
+                  "key": "z",
+                  "value": "100",
+                  "type": "text"
+                },
+                {
+                  "key": "world",
+                  "value": "minecraft:overworld",
+                  "type": "text"
+                },
+                {
+                  "key": "rotation",
+                  "value": "NONE",
+                  "type": "text"
+                },
+                {
+                  "key": "include_entities",
+                  "value": "true",
+                  "type": "text"
+                },
+                {
+                  "key": "replace_blocks",
+                  "value": "true",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/world/structure/place",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "structure", "place"]
+            },
+            "description": "Place an NBT structure file. Rotation: NONE, CLOCKWISE_90, CLOCKWISE_180, COUNTERCLOCKWISE_90"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prefabs",
+      "item": [
+        {
+          "name": "Place Door",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"world\": \"minecraft:overworld\",\n  \"startX\": 100,\n  \"startY\": 64,\n  \"startZ\": 100,\n  \"width\": 3,\n  \"facing\": \"north\",\n  \"blockType\": \"minecraft:oak_door\",\n  \"hinge\": \"left\",\n  \"open\": false,\n  \"doubleDoors\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/world/prefabs/door",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "prefabs", "door"]
+            },
+            "description": "Place door prefabs. Facing: north, south, east, west. Hinge: left, right"
+          },
+          "response": []
+        },
+        {
+          "name": "Place Stairs",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"world\": \"minecraft:overworld\",\n  \"startX\": 100,\n  \"startY\": 64,\n  \"startZ\": 100,\n  \"endX\": 110,\n  \"endY\": 74,\n  \"endZ\": 100,\n  \"blockType\": \"minecraft:oak_block\",\n  \"stairType\": \"minecraft:oak_stairs\",\n  \"staircaseDirection\": \"north\",\n  \"fillSupport\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/api/world/prefabs/stairs",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["api", "world", "prefabs", "stairs"]
+            },
+            "description": "Place staircase prefab from start to end position"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
