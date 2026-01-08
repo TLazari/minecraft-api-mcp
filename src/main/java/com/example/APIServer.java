@@ -4,7 +4,6 @@ import com.example.endpoints.*;
 import io.javalin.Javalin;
 import net.minecraft.server.MinecraftServer;
 
-
 public class APIServer {
     public static Javalin app;
     public static MinecraftServer minecraftServer;
@@ -23,5 +22,6 @@ public class APIServer {
         new PlayerTeleportEndpoint(app, server, logger);
         new NBTStructureEndpoint(app, server, logger);
         new PrefabEndpoint(app, server, logger);
+        new CommandEndpoint(app, server, logger);
     }
 }

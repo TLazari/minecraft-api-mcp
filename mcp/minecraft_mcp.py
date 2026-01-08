@@ -544,6 +544,20 @@ class MinecraftMCPServer:
                         "properties": {},
                         "required": []
                     }
+                ),
+                Tool(
+                    name="run_command",
+                    description="Run an arbitrary Minecraft server command (e.g., 'weather rain', 'time set day', 'gamerule doDaylightCycle false')",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "command": {
+                                "type": "string",
+                                "description": "The command to run (with or without the leading slash)"
+                            }
+                        },
+                        "required": ["command"]
+                    }
                 )
             ]
         
@@ -593,6 +607,9 @@ class MinecraftMCPServer:
                     return result.content
                 elif name == "test_server_connection":
                     result = await self.test_server_connection()
+                    return result.content
+                elif name == "run_command":
+                    result = await self.run_command(**arguments)
                     return result.content
                 else:
                     raise ValueError(f"Unknown tool: {name}")
@@ -1253,6 +1270,38 @@ class MinecraftMCPServer:
                     type="text", 
                     text=f"❌ Error testing server connection: {str(e)}"
                 )]
+            )
+    
+    async def run_command(self, command: str) -> CallToolResult:
+        """Run an arbitrary Minecraft command."""
+        try:
+            payload = {
+                "command": command
+            }
+            
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    f"{self.api_base}/api/command",
+                    json=payload
+                )
+                response.raise_for_status()
+                result = response.json()
+                
+                if result.get("success"):
+                    return CallToolResult(
+                        content=[TextContent(
+                            type="text",
+                            text=f"✅ Command executed successfully: /{result['command']}"
+                        )]
+                    )
+                else:
+                    return CallToolResult(
+                        content=[TextContent(type="text", text=f"❌ Failed to execute command: {result.get('error', 'Unknown error')}")]
+                    )
+        except Exception as e:
+            print(f"Error executing command: {e}", file=sys.stderr)
+            return CallToolResult(
+                content=[TextContent(type="text", text=f"Error connecting to Minecraft API: {str(e)}")]
             )
     
     async def run(self):
